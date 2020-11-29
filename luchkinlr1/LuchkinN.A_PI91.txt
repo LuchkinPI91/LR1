@@ -1,0 +1,169 @@
+1)Создание каталога для выполнения ЛР
+mkdir luchkinlr1
+2)Инициализация Git
+git init
+3)Создания отчета и его индексация
+touch LuchkinN.A_PI91.txt
+git add LuchkinN.A_PI91.txt
+4)Сделать первый коммит
+git commit -m "First commit"
+5)Индексация изменений
+git add LuchkinN.A_PI91.txt
+git status
+6)Второй коммит
+git commit -m "Second commit"
+7)игнорирование, сравнение, удаление и перемещение файлов.
+Игнорирование:
+Был создан файл .gitignore
+В него было записано, что надо игнорировать log/
+Была создана папка log, а в ней создан log.txt
+проверяем игнорирование:
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   .gitignore
+        modified:   LuchkinN.A_PI91.txt
+
+Сравнение:
+$ git log --oneline
+fa5bac0 (HEAD -> master) ignore files
+7151998 Second commit
+3a5ad7b First commit
+
+gamel@LAPTOP-6LAF4PQR MINGW64 ~/luchkinlr1 (master)
+$ git diff fa5bac0 7151998
+diff --git a/.gitignore b/.gitignore
+deleted file mode 100644
+index 5292519..0000000
+--- a/.gitignore
++++ /dev/null
+@@ -1 +0,0 @@
+-logs/
+\ No newline at end of file
+diff --git a/LuchkinN.A_PI91.txt b/LuchkinN.A_PI91.txt
+index 76de197..98ab118 100644
+--- a/LuchkinN.A_PI91.txt
++++ b/LuchkinN.A_PI91.txt
+@@ -7,22 +7,3 @@ touch LuchkinN.A_PI91.txt
+ git add LuchkinN.A_PI91.txt
+ 4)Сделать первый коммит
+ git commit -m "First commit"
+-5)Индексация изменений
+-git add LuchkinN.A_PI91.txt
+-git status
+-6)Второй коммит
+-git commit -m "Second commit"
+-7)игнорирование, сравнение, удаление и перемещение файлов.
+
+Удаление файла:
+Создаем файл main.c: touch main.c
+инициализация его: git add main.c
+создаем коммит его добавления: git commit -m "add main.c file"
+удаляем его: git rm main.c 
+делаем коммит после удаления: git commit -m "delete main.c"
+
+Перемещение файла:
+Создаем папку lib: mkdir lib
+Создаем файл hello.html: touch hello.html
+Перемещаем hello.html в папку lib: git mv hello.html lib
+проверка:git status
+
+8)получения информации об истории коммитов.
+
+$ git log
+commit 57c4308c9d9c4de97c4a0cd647c4b995bae7abf7 (HEAD -> master)
+Author: LuchkinPI91 <luchkin-nikita@list.ru>
+Date:   Sun Nov 29 11:41:28 2020 +0700
+
+    Move file
+
+commit 72e21b47eb0d5abfa8504023d18481d594d10a92
+Author: LuchkinPI91 <luchkin-nikita@list.ru>
+Date:   Sun Nov 29 11:37:41 2020 +0700
+
+    delete file
+
+commit 08a20daa73f79cd5fc09b769adf2aa0f7ba9913f
+Author: LuchkinPI91 <luchkin-nikita@list.ru>
+Date:   Sun Nov 29 11:34:57 2020 +0700
+
+    delete main.c
+
+commit 2e9e5c09b83d1ddac54d52f83095680e201c0499
+Author: LuchkinPI91 <luchkin-nikita@list.ru>
+Date:   Sun Nov 29 11:33:46 2020 +0700
+
+    add main.c file
+
+
+9) Отмена сделанных изменений и работа сметками
+Отмена сделанных изменений:
+создан файл hello1.html
+Был создан коммит git commit -m "Error"
+Для отмены изменения был создан новый коммит: git revert HEAD --no-edit
+git log
+commit 19774b833582ff39c50c90525b145f711c73016f (HEAD -> master)
+Author: LuchkinPI91 <luchkin-nikita@list.ru>
+Date:   Sun Nov 29 13:10:05 2020 +0700
+
+    Revert "error"
+
+    This reverts commit 40c7834a23c8f5c48300025d78af40689ab6a872.
+
+работа сметками:
+Создание первой версий: git tag v1
+Тег для предыдущих версий: git checkout v1^ , cat lib/hello.html , git tag v1-beta
+Переключение по имени тега:git checkout v1 ,git checkout v1-beta
+
+10)создание ветки, перемещение по ним, объединение и удаление. Решение конфликтов слияния.
+Создание ветки:git checkout -b style
+Перемещение по веткам: git checkout master  , git checkout style
+Слияние веток: git checkout style ,git merge master 
+Решение конфликта: 
+git checkout style
+Switched to branch 'style'
+git merge master
+Auto-merging lib/hello.html
+CONFLICT (content): Merge conflict in lib/hello.html
+Automatic merge failed; fix conflicts and then commit the result.
+Первый раздел - версия во главе текущей ветки (style). Второй раздел - версия ветки master.
+Надо Вручную разрешить конфликт 
+git add lib/hello.html
+git commit -m "Merged master fixed conflict"
+[style 5cf62dc] Merged master fixed conflict
+
+Удаление ветки: создаем ветку git checkout -b qwer
+удаление ветки git branch -D qwer
+Deleted branch qwer (was 414b410).
+
+11)механизм прятанья
+git stash спрятать
+git show 
+commit ba37765871e14f9a17f491e63352dbe214b719df (HEAD -> master)
+Author: LuchkinPI91 <luchkin-nikita@list.ru>
+Date:   Sun Nov 29 13:51:08 2020 +0700
+
+    del branch
+
+diff --git a/LuchkinN.A_PI91.txt b/LuchkinN.A_PI91.txt
+index fd1d267..573566f 100644
+--- a/LuchkinN.A_PI91.txt
++++ b/LuchkinN.A_PI91.txt
+@@ -111,5 +111,30 @@ Date:   Sun Nov 29 13:10:05 2020 +0700
+
+     This reverts commit 40c7834a23c8f5c48300025d78af40689ab6a872.
+
++работа сметками:
++Создание первой версий: git tag v1
++Тег для предыдущих версий: git checkout v1^ , cat lib/hello.html , git tag v1-beta
++Переключение по имени тега:git checkout v1 ,git checkout v1-beta
++
++10)создание ветки, перемещение по ним, объединение и удаление. Решение конфликтов слияния.
++Создание ветки:git checkout -b style
+
+удаления  последнего прятанья
+ git stash drop
+Dropped refs/stash@{0} (d4cc4fed2e5c6ba092844ee8a4022663cac3afed)
+
+
